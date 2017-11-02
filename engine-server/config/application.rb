@@ -30,8 +30,7 @@ module EngineServer
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
       config.after_initialize do 
-        binding.pry
-        MarketApiConnection.run_event_loop_for_gdax
+        MarketApiConnection.run_event_loop_for_gdax(MarketApiConnection.create_json)
       end
   end
 
