@@ -6,15 +6,16 @@ require 'json'
 require 'net/https'
 
 module MarketApiConnection
-	@products = []
+	attr_accessor :products
+
 	def self.start_api_connection
 		get_products
 	end
 
 	def self.get_products
 		uri = URI("https://api.gdax.com/products")
-		res = Net::HTTP.get(uri)
-		binding.pry
+		res = Net::HTTP.get(uri)		# an array of hashes of product
+		products = JSON.parse(res)
 	end
 
 
