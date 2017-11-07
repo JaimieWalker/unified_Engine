@@ -29,9 +29,12 @@ module EngineServer
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
-      config.after_initialize do 
+# Connect to the market api products
+    if defined?(Rails::Server)
+      config.after_initialize do
         MarketApiConnection.start_api_connection
       end
+    end
   end
 
 

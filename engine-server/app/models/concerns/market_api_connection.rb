@@ -1,25 +1,29 @@
 require "faye/websocket"
 require "eventmachine"
-require "pry"
-require "pry-nav"
+
 require 'json'
 require 'net/https'
 
 module MarketApiConnection
-	attr_accessor :products
+ 	attr_accessor :products
 
 	def self.start_api_connection
-		get_products
+		products = get_products
+		binding.pry
+		create_json(products)
 	end
-
+# Makes url request to an external api
 	def self.get_products
 		uri = URI("https://api.gdax.com/products")
-		res = Net::HTTP.get(uri)		# an array of hashes of product
+		res = Net::HTTP.get(uri)		# an array of hashes of product is returned
 		products = JSON.parse(res)
+		Product.connection if !Product.connected?
+		# Returns the products created from the database
+		Product.save_products(products)
 	end
 
 
-	def self.create_json
+	def self.create_json()
 		json = {
 			"type": "subscribe",
 			"product_ids": [
@@ -37,7 +41,7 @@ module MarketApiConnection
 				}
 
 				json = JSON.generate(json)
-			end
+	end
 
 			def self.run_event_loop_for_gdax(json)
 				EM.run {
