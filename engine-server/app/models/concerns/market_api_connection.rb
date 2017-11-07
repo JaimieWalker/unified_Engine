@@ -26,7 +26,6 @@ module MarketApiConnection
 
 
 	def self.create_subscription
-		
 		product_ids =  Product.pluck(:name)
 		subscription = {
 			"type": "subscribe",
@@ -42,7 +41,7 @@ module MarketApiConnection
 				json = JSON.generate(subscription)
 	end
 
-			def self.run_event_loop_for_gdax(json)
+		def self.run_event_loop_for_gdax(json)
 				EM.run {
 					ws = Faye::WebSocket::Client.new('wss://ws-feed.gdax.com')
 					ws.on :open do |event|
