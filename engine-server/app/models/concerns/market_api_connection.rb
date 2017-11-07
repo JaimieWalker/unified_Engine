@@ -9,9 +9,11 @@ module MarketApiConnection
 
 	def self.start_api_connection
 		products = get_products
-		binding.pry
-		create_json(products)
+		# creates a subscribe event for the market feed on gdax.com
+		json = create_subscription
+		run_event_loop_for_gdax(json)
 	end
+
 # Makes url request to an external api
 	def self.get_products
 		uri = URI("https://api.gdax.com/products")
@@ -23,32 +25,27 @@ module MarketApiConnection
 	end
 
 
-	def self.create_json()
-		json = {
+	def self.create_subscription
+		
+		product_ids =  Product.pluck(:name)
+		subscription = {
 			"type": "subscribe",
-			"product_ids": [
-				"ETH-USD",
-				"ETH-EUR"
-				],
+			"product_ids": product_ids,
 				"channels": [
 							        {
 						"name": "ticker",
-						"product_ids": [
-							"ETH-BTC"
-						]
+						"product_ids": product_ids
 						},
 					]
 				}
 
-				json = JSON.generate(json)
+				json = JSON.generate(subscription)
 	end
 
 			def self.run_event_loop_for_gdax(json)
 				EM.run {
 					ws = Faye::WebSocket::Client.new('wss://ws-feed.gdax.com')
 					ws.on :open do |event|
-						binding.pry
-						p [:open]
 						ws.send(json)
 					end
 
