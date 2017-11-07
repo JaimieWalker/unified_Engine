@@ -9,11 +9,18 @@ module MarketApiConnection
 
 	def self.start_api_connection
 		products = get_products
+		binding.pry
 		# creates a subscribe event for the market feed on gdax.com
+		create_individual_product_tables
 		json = create_subscription
 		run_event_loop_for_gdax(json)
 	end
-
+# Should probably be a rake task
+	# def self.create_individual_product_tables
+	# 	product_ids = Product.pluck(:name)
+	# 	product_ids.each do |product|
+	# 	end
+	# end
 # Makes url request to an external api
 	def self.get_products
 		uri = URI("https://api.gdax.com/products")
@@ -26,6 +33,7 @@ module MarketApiConnection
 
 
 	def self.create_subscription
+		# Now that we have the products, these products need to have a table created for each of them
 		product_ids =  Product.pluck(:name)
 		subscription = {
 			"type": "subscribe",
