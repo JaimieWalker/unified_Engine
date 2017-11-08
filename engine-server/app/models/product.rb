@@ -1,4 +1,7 @@
 class Product < ApplicationRecord
+	has_many :matches
+
+
 	def self.save_products(product_array)
 		attr_reader :current_products
 		@@current_products = []

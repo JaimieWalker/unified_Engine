@@ -9,9 +9,8 @@ module MarketApiConnection
 
 	def self.start_api_connection
 		products = get_products
-		binding.pry
 		# creates a subscribe event for the market feed on gdax.com
-		create_individual_product_tables
+		# create_individual_product_tables
 		json = create_subscription
 		run_event_loop_for_gdax(json)
 	end

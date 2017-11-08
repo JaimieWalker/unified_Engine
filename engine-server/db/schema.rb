@@ -10,18 +10,38 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171104154209) do
+ActiveRecord::Schema.define(version: 20171108185323) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "matches", force: :cascade do |t|
+    t.string "type"
+    t.integer "sequence"
+    t.string "product_id"
+    t.decimal "price"
+    t.decimal "open_24h"
+    t.decimal "volume_24h"
+    t.decimal "low_24h"
+    t.decimal "high_24h"
+    t.decimal "volume_30d"
+    t.decimal "best_bid"
+    t.decimal "best_ask"
+    t.string "side"
+    t.datetime "time"
+    t.integer "trade_id"
+    t.decimal "last_size"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "products", force: :cascade do |t|
-    t.string "name"
+    t.string "product_id"
     t.string "base_currency"
     t.string "quote_currency"
-    t.float "base_min_size"
+    t.decimal "base_min_size"
     t.integer "base_max_size"
-    t.float "quote_increment"
+    t.decimal "quote_increment"
     t.string "display_name"
     t.boolean "margin_enabled"
     t.datetime "created_at", null: false
