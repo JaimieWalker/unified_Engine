@@ -33,7 +33,7 @@ module MarketApiConnection
 
 	def self.create_subscription
 		# Now that we have the products, these products need to have a table created for each of them
-		product_ids =  Product.pluck(:name)
+		product_ids =  Product.pluck(:product_id)
 		subscription = {
 			"type": "subscribe",
 			"product_ids": product_ids,
