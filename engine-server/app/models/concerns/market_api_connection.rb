@@ -33,7 +33,7 @@ module MarketApiConnection
 
 	def self.create_subscription
 		# Now that we have the products, these products need to have a table created for each of them
-		product_ids =  Product.pluck(:product_id)
+		product_ids =  Product.pluck(:product_name)
 		subscription = {
 			"type": "subscribe",
 			"product_ids": product_ids,
@@ -56,8 +56,11 @@ module MarketApiConnection
 					end
 
 					ws.on :message do |event|
-						binding.pry
-						p [:message, event.data]
+						json = JSON.parse(event.data)
+						if json["type"] == "subscriptions" || json["trade_id"].nil?
+						else
+							Match.save_match(json)
+						end
 					end
 
 					ws.on :error do |event|

@@ -9,6 +9,7 @@ require "action_controller/railtie"
 require "action_mailer/railtie"
 require "action_view/railtie"
 require "action_cable/engine"
+require "thread"
 # require "sprockets/railtie"
 # require "rails/test_unit/railtie"
 
@@ -18,6 +19,7 @@ Bundler.require(*Rails.groups)
 
 module EngineServer
   class Application < Rails::Application
+    $gdax_api_thread = nil
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.1
 
@@ -32,7 +34,9 @@ module EngineServer
 # Connect to the market api products
     if defined?(Rails::Server)
       config.after_initialize do
-        MarketApiConnection.start_api_connection
+      $gdax_api_thread = Thread.new {
+          MarketApiConnection.start_api_connection
+        }
       end
     end
   end

@@ -16,9 +16,9 @@ ActiveRecord::Schema.define(version: 20171108185323) do
   enable_extension "plpgsql"
 
   create_table "matches", force: :cascade do |t|
-    t.string "type"
-    t.integer "sequence"
-    t.string "product_id"
+    t.string "response_type"
+    t.bigint "sequence"
+    t.string "product_name"
     t.decimal "price"
     t.decimal "open_24h"
     t.decimal "volume_24h"
@@ -29,23 +29,27 @@ ActiveRecord::Schema.define(version: 20171108185323) do
     t.decimal "best_ask"
     t.string "side"
     t.datetime "time"
-    t.integer "trade_id"
+    t.bigint "trade_id"
     t.decimal "last_size"
+    t.bigint "product_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_matches_on_product_id"
+    t.index ["product_name"], name: "index_matches_on_product_name"
   end
 
   create_table "products", force: :cascade do |t|
-    t.string "product_id"
+    t.string "product_name"
     t.string "base_currency"
     t.string "quote_currency"
     t.decimal "base_min_size"
-    t.integer "base_max_size"
+    t.bigint "base_max_size"
     t.decimal "quote_increment"
     t.string "display_name"
     t.boolean "margin_enabled"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["product_name"], name: "index_products_on_product_name"
   end
 
 end
