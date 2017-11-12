@@ -67,6 +67,7 @@ module MarketApiConnection
 						binding.pry
 						p [:error]
 					end
+					# Need to rerun this whole event loop on close, need to stop the EM then restart
 					ws.on :close do |event|
 						binding.pry
 						p [:close, event.code, event.reason]
