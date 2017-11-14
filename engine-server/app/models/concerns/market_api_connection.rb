@@ -48,32 +48,43 @@ module MarketApiConnection
 				json = JSON.generate(subscription)
 	end
 
-		def self.run_event_loop_for_gdax(json)
-				EM.run {
-					ws = Faye::WebSocket::Client.new('wss://ws-feed.gdax.com')
-					ws.on :open do |event|
-						ws.send(json)
-					end
+	def self.run_event_loop_for_gdax(json)
+		ActiveRecord::Base.logger = nil
+		begin
+			EM.run {
+				ws = Faye::WebSocket::Client.new('wss://ws-feed.gdax.com')
+				ws.on :open do |event|
+					ws.send(json)
+				end
 
-					ws.on :message do |event|
-						json = JSON.parse(event.data)
-						if json["type"] == "subscriptions" || json["trade_id"].nil?
-						else
-							Match.save_match(json)
-						end
+				ws.on :message do |event|
+					json = JSON.parse(event.data)
+					if json["type"] == "subscriptions" || json["trade_id"].nil?
+					else
+						Match.save_match(json)
 					end
+				end
 
-					ws.on :error do |event|
-						binding.pry
-						p [:error]
-					end
+				ws.on :error do |event|
+					# Can log this somewhere if needed in the database
+					binding.pry
+					p [:error]
+				end
 					# Need to rerun this whole event loop on close, need to stop the EM then restart
-					ws.on :close do |event|
-						binding.pry
-						p [:close, event.code, event.reason]
-						ws = nil
-					end
-				}	
-			end
-
+				ws.on :close do |event|
+					p [:close, event.code, event.reason]
+					ws = nil
+					# raises a request to restart the event machine loop, so that the server can automatically reconnect
+					# Need to also update the front end that there is a problem with the backend, if it cannot be restarted
+					raise "Restart EM"
+				end
+			}
+		rescue 
+			# Reruns the event loop if an error occurs
+			binding.pry
+			sleep 5
+			retry
 		end
+	end
+
+end
