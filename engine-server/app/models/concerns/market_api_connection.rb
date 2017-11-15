@@ -49,7 +49,8 @@ module MarketApiConnection
 	end
 
 	def self.run_event_loop_for_gdax(json)
-		ActiveRecord::Base.logger = nil
+		# This removes logging in the database
+		# ActiveRecord::Base.logger = nil
 		begin
 			EM.run {
 				ws = Faye::WebSocket::Client.new('wss://ws-feed.gdax.com')
@@ -67,7 +68,6 @@ module MarketApiConnection
 
 				ws.on :error do |event|
 					# Can log this somewhere if needed in the database
-					binding.pry
 					p [:error]
 				end
 					# Need to rerun this whole event loop on close, need to stop the EM then restart
@@ -81,7 +81,6 @@ module MarketApiConnection
 			}
 		rescue 
 			# Reruns the event loop if an error occurs
-			binding.pry
 			sleep 5
 			retry
 		end
