@@ -14,13 +14,15 @@ module MarketApiConnection
 		json = create_subscription
 		run_event_loop_for_gdax(json)
 	end
+	# Was implementing just in case their products expand
 # Should probably be a rake task
 	# def self.create_individual_product_tables
 	# 	product_ids = Product.pluck(:name)
 	# 	product_ids.each do |product|
 	# 	end
 	# end
-# Makes url request to an external api
+
+# Makes url request to the gdax external api
 	def self.get_products
 		uri = URI("https://api.gdax.com/products")
 		res = Net::HTTP.get(uri)		# an array of hashes of product is returned
@@ -49,8 +51,8 @@ module MarketApiConnection
 	end
 
 	def self.run_event_loop_for_gdax(json)
-		# This removes logging in the database
-		# ActiveRecord::Base.logger = nil
+		# This removes logging in the console
+		ActiveRecord::Base.logger = nil
 		begin
 			EM.run {
 				ws = Faye::WebSocket::Client.new('wss://ws-feed.gdax.com')
