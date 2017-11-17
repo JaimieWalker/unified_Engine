@@ -10,6 +10,7 @@ require "action_mailer/railtie"
 require "action_view/railtie"
 require "action_cable/engine"
 require "thread"
+
 # require "sprockets/railtie"
 # require "rails/test_unit/railtie"
 
@@ -34,9 +35,10 @@ module EngineServer
 # Connect to the market api products
     if defined?(Rails::Server)
       config.after_initialize do
-      $gdax_api_thread = Thread.new {
+      # $gdax_api_thread = Thread.new {
+        # binding.pry
           MarketApiConnection.start_api_connection
-        }
+        # }
       end
     end
   end
