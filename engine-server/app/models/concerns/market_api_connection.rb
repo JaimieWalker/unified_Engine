@@ -23,7 +23,12 @@ module MarketApiConnection
 # Makes url request to the gdax external api
 	def self.get_products
 		uri = URI("https://api.gdax.com/products")
-		res = Net::HTTP.get(uri)		# an array of hashes of product is returned
+		begin
+			res = Net::HTTP.get(uri)		# an array of hashes of product is returned
+		rescue Timeout::Error, Errno::EINVAL, Errno::ECONNRESET, EOFError, Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError => e
+			sleep 2
+			retry
+		end	
 		products = JSON.parse(res)
 		Product.connection if !Product.connected?
 		# Returns the products created from the database
@@ -51,9 +56,7 @@ module MarketApiConnection
 	def self.run_event_loop_for_gdax(json)
 		# This removes logging in the console
 		# ActiveRecord::Base.logger = nil
-		
-		# begin
-				WebSocket::Client::Simple.connect ('wss://ws-feed.gdax.com') do |ws|
+				ws = WebSocket::Client::Simple.connect ('wss://ws-feed.gdax.com') 
 
 					ws.on :open do |event|
 						ws.send(json)
@@ -68,23 +71,13 @@ module MarketApiConnection
 					end
 
 					ws.on :error do |event|
-						# Can log this somewhere if needed in the database
-						p [:error]
+						# Need to figure out what to do if the server loses power. A regular server restart completely fixes the issue, but what if the whole server does not need to be restarted. How would you figure out how to reconnect to the websocket, without restarting the server?
+						p [:error, event.message, event.errno]
 					end
-						# Need to rerun this whole event loop on close, need to stop the EM then restart
 					ws.on :close do |event|
-						p [:close, event.code, event.reason]
+						p [:close, event[:data].message]
 						ws = nil
-						# raises a request to restart the event machine loop, so that the server can automatically reconnect
-						# Need to also update the front end that there is a problem with the backend, if it cannot be restarted
-						raise "Restart EM"
 					end
-				end
-			# rescue 
-				# Reruns the event loop if an error occurs
-				# sleep 5
-				# retry
-			# end
-		end
+	end
 
 end
