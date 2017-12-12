@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MarketDataService } from '../market-data.service';
+
 
 @Component({
   selector: 'app-home',
@@ -8,7 +10,7 @@ import { Component, OnInit } from '@angular/core';
 export class HomeComponent implements OnInit {
 
   itemCount: number = 4;
-  constructor() { }
+  constructor(private _data: MarketDataService) { }
 
   ngOnInit() {
     
