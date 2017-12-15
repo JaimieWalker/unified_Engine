@@ -55,7 +55,7 @@ module MarketApiConnection
 
 	def self.run_event_loop_for_gdax(json)
 		# This removes logging in the console
-		# ActiveRecord::Base.logger = nil
+		ActiveRecord::Base.logger = nil
 				ws = WebSocket::Client::Simple.connect ('wss://ws-feed.gdax.com') 
 
 					ws.on :open do |event|

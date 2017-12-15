@@ -1,6 +1,5 @@
 class ProductChannel < ApplicationCable::Channel
   def subscribed
-  	binding.pry
      stream_from "product_info"
   end
 

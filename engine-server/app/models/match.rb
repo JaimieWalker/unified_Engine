@@ -3,6 +3,7 @@ class Match < ApplicationRecord
 # need to fix broadcast
 	after_create_commit :broadcast_product
 	def broadcast_product
+		ActionCable.server.config.logger = Logger.new(nil)
 		ActionCable.server.broadcast("product_info",self.to_json)
 	end
 
