@@ -6,6 +6,9 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { MarketDataService } from './market-data.service';
 import { Ng2CableModule } from 'ng2-cable';
+import { ProductsService } from './products.service';
+import { HttpClientModule } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
@@ -14,9 +17,10 @@ import { Ng2CableModule } from 'ng2-cable';
   ],
   imports: [Ng2CableModule,
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
-  providers: [MarketDataService],
+  providers: [MarketDataService, ProductsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

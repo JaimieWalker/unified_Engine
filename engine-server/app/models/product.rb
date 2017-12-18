@@ -13,6 +13,8 @@ class Product < ApplicationRecord
 				p.quote_increment = product["quote_increment"]
 				p.display_name = product["display_name"]
 				p.margin_enabled = product["margin_enabled"]
+				p.status = product["status"]
+				p.status_message = product["status_message"]
 			end
 		end
 		return current_products
