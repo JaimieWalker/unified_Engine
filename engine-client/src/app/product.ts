@@ -1,4 +1,4 @@
-export class Cryptocurrency {
+export class Product {
     id: string;
     base_currency: string;
     quote_currency: string;
@@ -9,7 +9,8 @@ export class Cryptocurrency {
     status: string;
     margin_enabled: boolean;
     status_message: string;
-
+    // This number will change based on the quote currency
+    price: number;
     constructor(id:string){
         this.id = id;
     }

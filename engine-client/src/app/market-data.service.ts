@@ -10,7 +10,10 @@ export class MarketDataService {
     this.ng2cable.subscribe(environment.base_url + '/cable', 'ProductChannel');
     this.broadcaster.on<string>('ProductChannel').subscribe(
       message => {
-        
+        console.log(message);
+      },
+      error => {
+        alert("error");
       }
     );
 
