@@ -11,6 +11,10 @@ const httpOptions = {
 export class ProductsService {
   products = {};
   // When the user connects, create a dictionary/hash of all the current products in the database
+  get_products(){
+
+  }
+
   constructor(private http: HttpClient) { 
     this.http.get(environment.base_url + "/products")
       .subscribe(
@@ -28,9 +32,8 @@ export class ProductsService {
           product.status_message = prod.status_message
           // Price needs to come from some sort of cache from the database
           product.price = 0;
-          this.products[prod.display_name] = product
+          this.products[prod.base_currency + "-" + prod.quote_currency] = product
         }
-       let a = this.products
         console.log(this.products);
     },
      error=>{

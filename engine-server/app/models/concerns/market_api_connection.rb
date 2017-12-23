@@ -29,6 +29,7 @@ module MarketApiConnection
 			sleep 2
 			retry
 		end	
+		# Can add error handling for when the api of the website is down
 		products = JSON.parse(res)
 		Product.connection if !Product.connected?
 		# Returns the products created from the database
