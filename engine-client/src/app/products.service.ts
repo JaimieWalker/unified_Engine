@@ -9,17 +9,28 @@ const httpOptions = {
 
 @Injectable()
 export class ProductsService {
-  products = {};
-  // When the user connects, create a dictionary/hash of all the current products in the database
-  get_products(){
+  products :any;
+  constructor(private http: HttpClient) {
+    this.products = {}
+  }
+  
+  set_price(product: string,price: number){
+    this.products[product].price = price;
 
   }
 
-  constructor(private http: HttpClient) { 
-    this.http.get(environment.base_url + "/products")
+  get_products():any{
+    return this.products
+  }
+
+  // When the user connects, create a dictionary/hash of all the current products in the database
+  create_products(){
+    let l = this.http.get(environment.base_url + "/products")
+    debugger;
       .subscribe(
       (data: Product[]) => {
         for (let prod of data) {
+          debugger
           let product = new Product(prod.display_name);
           product.base_currency = prod.base_currency;
           product.base_max_size = prod.base_max_size;
@@ -34,11 +45,13 @@ export class ProductsService {
           product.price = 0;
           this.products[prod.base_currency + "-" + prod.quote_currency] = product
         }
-        console.log(this.products);
-    },
-     error=>{
-       
-    });
+        console.log(this.products)
+      },
+      error => {
+        console.log("Error")
+      });
   }
+
+  
 
 }

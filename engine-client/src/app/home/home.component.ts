@@ -9,14 +9,16 @@ import { Product } from '../Product';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  itemCount: number = 4;
   products: any;
   constructor(private market_data: MarketDataService) {
-    this.products = this.market_data.productservice.products
+    
   }
 
   
   ngOnInit() {
+    this.market_data.productservice.create_products()
+    this.products = this.market_data.productservice.get_products()
+    
   }
 
 }

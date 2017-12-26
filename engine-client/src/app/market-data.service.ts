@@ -13,8 +13,9 @@ export class MarketDataService {
       message => {
         let match = JSON.parse(message);
         // This is a model, must turn product into an angular model
-        productservice.products[match.product_name].price = match.price
-        console.log(productservice.products["BTC-USD"].price)
+        productservice.set_price(match.product_name, match.price)
+        
+        console.log(productservice.get_products()["BTC-USD"].price)
       },
       error => {
         alert("error");
