@@ -1,4 +1,4 @@
-<div class="example1">
-  <h3 *ngFor="let product of products">Scrolling text... ({{product}})</h3>
+<div *ngFor="let value of values" ngFor = "let key of keys" class="example1" >
+  <h3 >{{value.base_currency + '-' + value.quote_currency}} {{value.price}}</h3>
 </div>
 

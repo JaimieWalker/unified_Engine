@@ -1,3 +1,5 @@
+import { CommonModule } from '@angular/common';
+
 export class Product {
     id: string;
     base_currency: string;

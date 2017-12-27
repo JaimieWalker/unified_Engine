@@ -3,6 +3,8 @@ import { MarketDataService } from '../market-data.service';
 import { ProductsService} from '../products.service';
 import { Product } from '../product';
 import { ActivatedRoute } from '@angular/router';
+import { NgForOf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 
 @Component({
@@ -12,6 +14,10 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
   products: any;
+  keys: any;
+  values: any;
+  
+  
   constructor(private market_data: MarketDataService, private route: ActivatedRoute) {
    
     let data = this.route.snapshot.data.products
@@ -30,13 +36,13 @@ export class HomeComponent implements OnInit {
       product.price = 0;
       this.market_data.productservice.products[prod.base_currency + "-" + prod.quote_currency] = product
     }
-    this.products = [this.market_data.productservice.products]
-    
+    this.products = this.market_data.productservice.products
+    this.keys = Object.keys(this.products)
+    this.values = Object.values(this.products)
   }
 
   
   ngOnInit() {
-    debugger
     console.log(this.products)
   }
 

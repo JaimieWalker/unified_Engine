@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Resolve } from '@angular/router';
 import { Product } from './product';
+import { CommonModule } from '@angular/common';
 
 import { Observable } from 'rxjs/Observable';
 import {ProductsService } from './products.service'

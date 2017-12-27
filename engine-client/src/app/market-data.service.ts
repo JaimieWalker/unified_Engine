@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Ng2Cable, Broadcaster } from 'ng2-cable'
 import { environment } from '../environments/environment.prod';
 import { ProductsService } from './products.service';
+import { CommonModule } from '@angular/common';
 
 @Injectable()
 export class MarketDataService {
