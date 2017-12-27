@@ -8,6 +8,7 @@ import { MarketDataService } from './market-data.service';
 import { Ng2CableModule } from 'ng2-cable';
 import { ProductsService } from './products.service';
 import { HttpClientModule } from '@angular/common/http';
+import { ProdResolver } from './product.resolver';
 
 
 @NgModule({
@@ -20,7 +21,7 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [MarketDataService, ProductsService],
+  providers: [MarketDataService, ProductsService, ProdResolver],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

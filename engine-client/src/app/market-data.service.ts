@@ -5,7 +5,6 @@ import { ProductsService } from './products.service';
 
 @Injectable()
 export class MarketDataService {
-
   constructor(private ng2cable: Ng2Cable,
     private broadcaster: Broadcaster, public productservice: ProductsService) { 
     this.ng2cable.subscribe(environment.base_url + '/cable', 'ProductChannel');
@@ -18,10 +17,8 @@ export class MarketDataService {
         console.log(productservice.get_products()["BTC-USD"].price)
       },
       error => {
-        alert("error");
       }
     );
-
   }
-
+  
 }
