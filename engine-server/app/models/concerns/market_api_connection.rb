@@ -6,7 +6,10 @@ module MarketApiConnection
  	attr_accessor :products
 
 	def self.start_api_connection
-		products = get_products
+		uri = URI("https://api.gdax.com/products")
+		uri2 = URI("https://api.gemini.com/v1/symbols")
+		products = get_products(uri)
+		
 		# creates a subscribe event for the market feed on gdax.com
 		# create_individual_product_tables
 		json = create_subscription
@@ -20,20 +23,16 @@ module MarketApiConnection
 	# 	end
 	# end
 
-# Makes url request to the gdax external api
-	def self.get_products
-		uri = URI("https://api.gdax.com/products")
-		uri2 = URI("https://api.gemini.com/v1/symbols")
+# Makes url request to the external api
+	def self.get_products(uri)
 		begin
 			res = Net::HTTP.get(uri)		# an array of hashes of product is returned
-			res2 = Net::HTTP.get(uri2)
 		rescue Timeout::Error, Errno::EINVAL, Errno::ECONNRESET, EOFError, Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError => e
 			sleep 2
 			retry
 		end	
 		# Can add error handling for when the api of the website is down
 		products = JSON.parse(res)
-		products2 = JSON.parse(res2)
 		Product.connection if !Product.connected?
 		# Returns the products created from the database
 		Product.save_products(products)
@@ -82,6 +81,10 @@ module MarketApiConnection
 						p [:close, event[:data].message]
 						ws = nil
 					end
+	end
+
+# This function just checks if the product is already in the database
+	def check_database
 	end
 
 end
