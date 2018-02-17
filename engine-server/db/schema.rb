@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171108185323) do
+ActiveRecord::Schema.define(version: 2018_02_17_174025) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,8 +32,10 @@ ActiveRecord::Schema.define(version: 20171108185323) do
     t.bigint "trade_id"
     t.decimal "last_size"
     t.bigint "product_id"
+    t.string "exchange_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["exchange_name"], name: "index_matches_on_exchange_name"
     t.index ["product_id"], name: "index_matches_on_product_id"
     t.index ["product_name"], name: "index_matches_on_product_name"
   end
@@ -54,4 +56,5 @@ ActiveRecord::Schema.define(version: 20171108185323) do
     t.index ["product_name"], name: "index_products_on_product_name"
   end
 
+  add_foreign_key "matches", "products"
 end

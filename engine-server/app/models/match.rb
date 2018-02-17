@@ -26,6 +26,7 @@ class Match < ApplicationRecord
 			m.trade_id = json["trade_id"]
 			m.last_size = json["last_size"]
 			m.sequence = json["sequence"]
+			m.exchange_name = "gdax"
 		end
 		product.matches << a_match
 	end

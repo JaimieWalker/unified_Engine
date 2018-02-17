@@ -1,7 +1,7 @@
 require 'websocket-client-simple'
 require 'json'
 require 'net/https'
-
+# GDAX API Connection
 module MarketApiConnection
  	attr_accessor :products
 
@@ -23,14 +23,17 @@ module MarketApiConnection
 # Makes url request to the gdax external api
 	def self.get_products
 		uri = URI("https://api.gdax.com/products")
+		uri2 = URI("https://api.gemini.com/v1/symbols")
 		begin
 			res = Net::HTTP.get(uri)		# an array of hashes of product is returned
+			res2 = Net::HTTP.get(uri2)
 		rescue Timeout::Error, Errno::EINVAL, Errno::ECONNRESET, EOFError, Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError => e
 			sleep 2
 			retry
 		end	
 		# Can add error handling for when the api of the website is down
 		products = JSON.parse(res)
+		products2 = JSON.parse(res2)
 		Product.connection if !Product.connected?
 		# Returns the products created from the database
 		Product.save_products(products)
