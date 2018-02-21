@@ -11,7 +11,7 @@ class CreateProducts < ActiveRecord::Migration[5.2]
       t.string :status
       t.boolean :margin_enabled
       t.string :status_message
-
+      t.string :gemini_display_name
       t.timestamps
     end
   end

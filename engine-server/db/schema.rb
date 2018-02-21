@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 2018_02_17_174025) do
     t.string "status"
     t.boolean "margin_enabled"
     t.string "status_message"
+    t.string "gemini_display_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["product_name"], name: "index_products_on_product_name"

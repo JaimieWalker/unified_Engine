@@ -1,15 +1,17 @@
 require 'websocket-client-simple'
 require 'json'
 require 'net/https'
+
 # GDAX API Connection
 module MarketApiConnection
  	attr_accessor :products
 
 	def self.start_api_connection
 		uri = URI("https://api.gdax.com/products")
-		uri2 = URI("https://api.gemini.com/v1/symbols")
+		uri2_gemini = URI("https://api.gemini.com/v1/symbols")
 		products = get_products(uri)
-		
+		products = get_gemini_products(uri2_gemini)
+
 		# creates a subscribe event for the market feed on gdax.com
 		# create_individual_product_tables
 		json = create_subscription
@@ -38,7 +40,7 @@ module MarketApiConnection
 		Product.save_products(products)
 	end
 
-
+# subscription for gdax
 	def self.create_subscription
 		# Now that we have the products, these products need to have a table created for each of them
 		product_ids =  Product.pluck(:product_name)
@@ -84,7 +86,25 @@ module MarketApiConnection
 	end
 
 # This function just checks if the product is already in the database
-	def check_database
+
+	def self.get_gemini_products(uri)
+		begin
+			res = Net::HTTP.get(uri)		# an array of hashes of product is returned
+		rescue Timeout::Error, Errno::EINVAL, Errno::ECONNRESET, EOFError, Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError => e
+			sleep 2
+			retry
+		end	
+		# Can add error handling for when the api of the website is down
+		products = JSON.parse(res)
+		products.each do |product|
+			temp = String.new(product)
+			temp.insert(3,'-')
+			crypto_product = Product.where("product_name ~* ?", temp)[0]
+			crypto_product.update(gemini_display_name: product)
+			# Check the database for a similar text match
+
+			
+		end
 	end
 
 end
