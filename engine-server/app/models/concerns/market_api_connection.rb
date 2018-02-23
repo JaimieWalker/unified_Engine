@@ -102,9 +102,11 @@ module MarketApiConnection
 			crypto_product = Product.where("product_name ~* ?", temp)[0]
 			crypto_product.update(gemini_display_name: product)
 			# Check the database for a similar text match
-
-			
 		end
+		binding.pry
 	end
 
+	def self.run_event_loop_for_gemini
+		
+	end
 end

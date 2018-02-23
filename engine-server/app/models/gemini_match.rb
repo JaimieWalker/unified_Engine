@@ -1,0 +1,2 @@
+class GeminiMatch < ApplicationRecord
+end
