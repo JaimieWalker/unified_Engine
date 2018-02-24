@@ -15,6 +15,7 @@ module MarketApiConnection
 		# creates a subscribe event for the market feed on gdax.com
 		# create_individual_product_tables
 		json = create_subscription
+		run_event_loop_for_gemini
 		run_event_loop_for_gdax(json)
 	end
 	# Was implementing just in case their products expand
@@ -103,10 +104,32 @@ module MarketApiConnection
 			crypto_product.update(gemini_display_name: product)
 			# Check the database for a similar text match
 		end
-		binding.pry
 	end
 
 	def self.run_event_loop_for_gemini
-		
+		uri = "wss://api.gemini.com/v1/marketdata/btcusd"
+			ws = WebSocket::Client::Simple.connect (uri)
+
+					ws.on :open do |event|
+					end
+					
+					ws.on :message do |event|
+						json = JSON.parse(event.data)
+						binding.pry
+						
+						if json["events"].first["reason"] == "initial" || json["trade_id"].nil?
+						else
+							GeminiMatch.save_match(json)
+						end
+					end
+
+					ws.on :error do |event|
+						# Need to figure out what to do if the server loses power. A regular server restart completely fixes the issue, but what if the whole server does not need to be restarted. How would you figure out how to reconnect to the websocket, without restarting the server?
+						p [:error, event.message, event.errno]
+					end
+					ws.on :close do |event|
+						p [:close, event[:data].message]
+						ws = nil
+					end
 	end
 end

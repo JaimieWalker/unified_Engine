@@ -1,6 +1,6 @@
 class Product < ApplicationRecord
 	has_many :matches
-
+	has_many :gemini_matches
 
 	def self.save_products(product_array)
 		current_products = []

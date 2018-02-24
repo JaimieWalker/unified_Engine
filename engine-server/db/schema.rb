@@ -10,10 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_02_17_174025) do
+ActiveRecord::Schema.define(version: 2018_02_22_230356) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "gemini_matches", force: :cascade do |t|
+    t.bigint "socket_sequence"
+    t.string "type"
+    t.integer "eventId"
+    t.string "side"
+    t.decimal "price"
+    t.decimal "remaining"
+    t.decimal "delta"
+    t.string "reason"
+    t.string "event_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "matches", force: :cascade do |t|
     t.string "response_type"
