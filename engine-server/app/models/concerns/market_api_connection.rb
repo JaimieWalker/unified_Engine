@@ -4,8 +4,8 @@ require 'net/https'
 
 # GDAX API Connection
 module MarketApiConnection
+	@@gemini_ws = []
  	attr_accessor :products
-
 	def self.start_api_connection
 		uri = URI("https://api.gdax.com/products")
 		uri2_gemini = URI("https://api.gemini.com/v1/symbols")
@@ -107,19 +107,19 @@ module MarketApiConnection
 	end
 
 	def self.run_event_loop_for_gemini
-		uri = "wss://api.gemini.com/v1/marketdata/btcusd"
-			ws = WebSocket::Client::Simple.connect (uri)
-
+		uri_list = Product.pluck(:gemini_display_name).compact
+		
+		uri_base = "wss://api.gemini.com/v1/marketdata/"
+		
+		uri_list.each do |g_name|
+		@@gemini_ws <<	ws = WebSocket::Client::Simple.connect(uri_base + g_name) 
 					ws.on :open do |event|
 					end
-					
 					ws.on :message do |event|
 						json = JSON.parse(event.data)
-						binding.pry
-						
-						if json["events"].first["reason"] == "initial" || json["trade_id"].nil?
+						if json["events"].first["reason"] == "initial"
 						else
-							GeminiMatch.save_match(json)
+							GeminiMatch.save_match(json,g_name)
 						end
 					end
 
@@ -131,5 +131,6 @@ module MarketApiConnection
 						p [:close, event[:data].message]
 						ws = nil
 					end
+		end
 	end
 end

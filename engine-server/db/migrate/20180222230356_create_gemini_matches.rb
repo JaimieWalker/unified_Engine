@@ -10,6 +10,8 @@ class CreateGeminiMatches < ActiveRecord::Migration[5.2]
       t.decimal :delta
       t.string :reason
       t.string :event_type
+      t.belongs_to :product, foreign_key: true, index: true
+      t.string :timestamp
       t.timestamps
     end
   end

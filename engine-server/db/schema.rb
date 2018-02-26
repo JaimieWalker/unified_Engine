@@ -25,8 +25,11 @@ ActiveRecord::Schema.define(version: 2018_02_22_230356) do
     t.decimal "delta"
     t.string "reason"
     t.string "event_type"
+    t.bigint "product_id"
+    t.string "timestamp"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_gemini_matches_on_product_id"
   end
 
   create_table "matches", force: :cascade do |t|
@@ -71,5 +74,6 @@ ActiveRecord::Schema.define(version: 2018_02_22_230356) do
     t.index ["product_name"], name: "index_products_on_product_name"
   end
 
+  add_foreign_key "gemini_matches", "products"
   add_foreign_key "matches", "products"
 end
