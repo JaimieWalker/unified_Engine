@@ -17,8 +17,8 @@ ActiveRecord::Schema.define(version: 2018_02_22_230356) do
 
   create_table "gemini_matches", force: :cascade do |t|
     t.bigint "socket_sequence"
-    t.string "type"
-    t.integer "eventId"
+    t.string "g_type"
+    t.string "eventId"
     t.string "side"
     t.decimal "price"
     t.decimal "remaining"

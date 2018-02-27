@@ -1,7 +1,7 @@
 class GeminiMatch < ApplicationRecord
     belongs_to :product
     after_create_commit :broadcast_product
-	def broadcast_product
+    def broadcast_product
 		ActionCable.server.broadcast("product_info",self.to_json)
     end
     
@@ -9,7 +9,7 @@ class GeminiMatch < ApplicationRecord
         events = json["events"].first
         product = Product.find_by(gemini_display_name: g_name)
         gemini_match = GeminiMatch.create!(product_id: product.id) do |m|
-            m.type = json["type"]
+            m.g_type = json["type"]
             m.eventId = json["eventId"]
             m.socket_sequence = json["socket_sequence"]
             m.timestamp = json["timestamp"]

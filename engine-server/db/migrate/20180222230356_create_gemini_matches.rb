@@ -2,8 +2,8 @@ class CreateGeminiMatches < ActiveRecord::Migration[5.2]
   def change
     create_table :gemini_matches do |t|
       t.integer :socket_sequence, limit: 8
-      t.string :type
-      t.integer :eventId
+      t.string :g_type
+      t.string :eventId
       t.string :side
       t.decimal :price
       t.decimal :remaining

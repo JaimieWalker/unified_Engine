@@ -124,6 +124,7 @@ module MarketApiConnection
 					end
 
 					ws.on :error do |event|
+						binding.pry
 						# Need to figure out what to do if the server loses power. A regular server restart completely fixes the issue, but what if the whole server does not need to be restarted. How would you figure out how to reconnect to the websocket, without restarting the server?
 						p [:error, event.message, event.errno]
 					end
