@@ -1,8 +1,11 @@
 class GeminiMatch < ApplicationRecord
     belongs_to :product
-    after_create_commit :broadcast_product
-    def broadcast_product
-		ActionCable.server.broadcast("product_info",self.to_json)
+    after_create_commit :broadcast_gemini
+    def broadcast_gemini
+        g_match = self.attributes
+        g_match["product_name"] = self.product.product_name
+        g_match["api"] = "gemini"
+		ActionCable.server.broadcast("gemini_matches",g_match.to_json)
     end
     
     def self.save_match(json,g_name)
