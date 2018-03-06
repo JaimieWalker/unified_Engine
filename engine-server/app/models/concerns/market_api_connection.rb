@@ -1,9 +1,12 @@
 require 'websocket-client-simple'
 require 'json'
 require 'net/https'
+require_relative "kraken_api"
 
 # GDAX API Connection
 module MarketApiConnection
+	kraken = KrakenApi.client
+	binding.pry
 	@@gemini_ws = []
  	attr_accessor :products
 	def self.start_api_connection
