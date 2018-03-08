@@ -6,15 +6,15 @@ require_relative "kraken_api"
 # GDAX API Connection
 module MarketApiConnection
 	kraken = KrakenApi.client
-	binding.pry
 	@@gemini_ws = []
- 	attr_accessor :products
+	attr_accessor :products
+	
 	def self.start_api_connection
 		uri = URI("https://api.gdax.com/products")
 		uri2_gemini = URI("https://api.gemini.com/v1/symbols")
 		products = get_products(uri)
 		products = get_gemini_products(uri2_gemini)
-
+		KrakenApi.save_products
 		# creates a subscribe event for the market feed on gdax.com
 		# create_individual_product_tables
 		json = create_subscription
