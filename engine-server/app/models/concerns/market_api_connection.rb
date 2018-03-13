@@ -15,10 +15,13 @@ module MarketApiConnection
 		products = get_products(uri)
 		products = get_gemini_products(uri2_gemini)
 		KrakenApi.save_products
+		binding.pry
+		KrakenApi.run_kraken_event_loop
+		# Just runs event loop for gemini
+		run_event_loop_for_gemini
 		# creates a subscribe event for the market feed on gdax.com
 		# create_individual_product_tables
 		json = create_subscription
-		run_event_loop_for_gemini
 		run_event_loop_for_gdax(json)
 	end
 	# Was implementing just in case their products expand

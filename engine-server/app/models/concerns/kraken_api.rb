@@ -17,6 +17,8 @@ class KrakenApi
                 temp.insert(3,'-')
                 product = Product.find_by(product_name: temp)
                 update_database(product,pair)
+            else
+                update_database(product,pair)
             end
         end
     end
@@ -39,7 +41,13 @@ class KrakenApi
     end
 
     def self.run_kraken_event_loop
-        
+        kraken_products = Product.pluck(:kraken_name).compact
+        Thread.new {
+            kraken_products.each do |product|
+                ticker_info = client.ticker(product)
+                binding.pry
+            end
+        }
     end
 
 end

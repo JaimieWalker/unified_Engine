@@ -1,0 +1,2 @@
+class KrakenMatch < ApplicationRecord
+end
