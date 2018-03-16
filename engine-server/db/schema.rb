@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_03_07_192755) do
+ActiveRecord::Schema.define(version: 2018_03_13_225244) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,33 @@ ActiveRecord::Schema.define(version: 2018_03_07_192755) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["product_id"], name: "index_gemini_matches_on_product_id"
+  end
+
+  create_table "kraken_matches", force: :cascade do |t|
+    t.decimal "volume_24h"
+    t.decimal "price"
+    t.decimal "last_trade_volume"
+    t.decimal "ask_price"
+    t.decimal "ask_whole_volume"
+    t.decimal "ask_volume"
+    t.decimal "bid_price"
+    t.decimal "bid_whole_volume"
+    t.decimal "bid_volume"
+    t.decimal "volume"
+    t.decimal "last_24h_volume"
+    t.decimal "weighted_price_avg"
+    t.decimal "weighted_price_avg_last_24h"
+    t.integer "trades_today"
+    t.integer "last_24h_trades"
+    t.decimal "todays_low"
+    t.decimal "low_24h"
+    t.decimal "todays_high"
+    t.decimal "high_24h"
+    t.decimal "open_price"
+    t.bigint "product_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_kraken_matches_on_product_id"
   end
 
   create_table "matches", force: :cascade do |t|
@@ -69,6 +96,10 @@ ActiveRecord::Schema.define(version: 2018_03_07_192755) do
     t.boolean "margin_enabled"
     t.string "status_message"
     t.string "gemini_display_name"
+    t.boolean "gdax"
+    t.boolean "gemini"
+    t.boolean "coinbase"
+    t.boolean "kraken"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "kraken_name"
@@ -79,5 +110,6 @@ ActiveRecord::Schema.define(version: 2018_03_07_192755) do
   end
 
   add_foreign_key "gemini_matches", "products"
+  add_foreign_key "kraken_matches", "products"
   add_foreign_key "matches", "products"
 end

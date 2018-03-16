@@ -12,7 +12,7 @@ module MarketApiConnection
 	def self.start_api_connection
 		uri = URI("https://api.gdax.com/products")
 		uri2_gemini = URI("https://api.gemini.com/v1/symbols")
-		products = get_products(uri)
+		gdax_products = get_products(uri)
 		products = get_gemini_products(uri2_gemini)
 		KrakenApi.save_products
 		binding.pry
@@ -50,7 +50,7 @@ module MarketApiConnection
 # subscription for gdax
 	def self.create_subscription
 		# Now that we have the products, these products need to have a table created for each of them
-		product_ids =  Product.pluck(:product_name)
+		product_ids =  Product.where(gdax: true).pluck(:product_name)
 		subscription = {
 			"type": "subscribe",
 			"product_ids": product_ids,
@@ -71,6 +71,7 @@ module MarketApiConnection
 				ws = WebSocket::Client::Simple.connect ('wss://ws-feed.gdax.com') 
 
 					ws.on :open do |event|
+						binding.pry
 						ws.send(json)
 					end
 
@@ -107,7 +108,7 @@ module MarketApiConnection
 			temp = String.new(product)
 			temp.insert(3,'-')
 			crypto_product = Product.where("product_name ~* ?", temp)[0]
-			crypto_product.update(gemini_display_name: product)
+			crypto_product.update(gemini_display_name: product, gemini: true)
 			# Check the database for a similar text match
 		end
 	end
@@ -130,7 +131,6 @@ module MarketApiConnection
 					end
 
 					ws.on :error do |event|
-						binding.pry
 						# Need to figure out what to do if the server loses power. A regular server restart completely fixes the issue, but what if the whole server does not need to be restarted. How would you figure out how to reconnect to the websocket, without restarting the server?
 						p [:error, event.message, event.errno]
 					end

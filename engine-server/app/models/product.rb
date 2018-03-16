@@ -1,7 +1,8 @@
 class Product < ApplicationRecord
 	has_many :matches
 	has_many :gemini_matches
-
+	has_many :kraken_matches
+	validates_uniqueness_of   :product_name
 	def self.save_products(product_array)
 		current_products = []
 		product_array.each do |product|
@@ -15,6 +16,7 @@ class Product < ApplicationRecord
 				p.margin_enabled = product["margin_enabled"]
 				p.status = product["status"]
 				p.status_message = product["status_message"]
+				p.gdax = true
 			end
 		end
 		return current_products

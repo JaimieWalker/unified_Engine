@@ -12,6 +12,10 @@ class CreateProducts < ActiveRecord::Migration[5.2]
       t.boolean :margin_enabled
       t.string :status_message
       t.string :gemini_display_name
+      t.boolean :gdax
+      t.boolean :gemini
+      t.boolean :coinbase
+      t.boolean :kraken
       t.timestamps
     end
   end

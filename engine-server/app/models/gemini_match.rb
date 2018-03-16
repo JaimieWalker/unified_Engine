@@ -2,6 +2,7 @@ class GeminiMatch < ApplicationRecord
     belongs_to :product
     after_create_commit :broadcast_gemini
     def broadcast_gemini
+        ActionCable.server.config.logger = Logger.new(nil)
         g_match = self.attributes
         g_match["product_name"] = self.product.product_name
         g_match["api"] = "gemini"

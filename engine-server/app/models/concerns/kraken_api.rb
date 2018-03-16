@@ -18,6 +18,7 @@ class KrakenApi
                 product = Product.find_by(product_name: temp)
                 update_database(product,pair)
             else
+                product = Product.find_by(product_name: pair[0])
                 update_database(product,pair)
             end
         end
@@ -45,7 +46,7 @@ class KrakenApi
         Thread.new {
             kraken_products.each do |product|
                 ticker_info = client.ticker(product)
-                binding.pry
+                KrakenMatch.save_match(ticker_info)
             end
         }
     end
