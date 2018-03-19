@@ -3,14 +3,14 @@ class Match < ApplicationRecord
 # need to fix broadcast
 	after_create_commit :broadcast_product
 	def broadcast_product
-		ActionCable.server.config.logger = Logger.new(nil)
+		# ActionCable.server.config.logger = Logger.new(nil)
 		ActionCable.server.broadcast("product_info",self.to_json)
 	end
 
 	def self.save_match(json)
 		product = Product.find_by(product_name: json["product_id"])
 		  # Assigning this for debug purposes. Lowers efficiency by a very insignificant amount for now 11/9/2017
-		a_match = Match.create!(product_id: product.id) do |m|
+		  a_match = Match.create!(product_id: product.id) do |m|
 			m.response_type = json["type"]
 			m.product_name = json["product_id"]
 			m.price = json["price"]

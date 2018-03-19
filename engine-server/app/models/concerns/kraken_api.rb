@@ -34,17 +34,20 @@ class KrakenApi
                  end   
                 p.quote_currency = product_object["quote"]
                 p.kraken_name = pair_arr[0]
+                p.kraken = true
                 
             end
         else
             product_in_db.update(kraken_name: pair_arr[0])
+            product_in_db.update(kraken: true)
         end
     end
 
     def self.run_kraken_event_loop
         kraken_products = Product.pluck(:kraken_name).compact
-        Thread.new {
+        kraken_thread = Thread.new {
             kraken_products.each do |product|
+                sleep 3
                 ticker_info = client.ticker(product)
                 KrakenMatch.save_match(ticker_info)
             end

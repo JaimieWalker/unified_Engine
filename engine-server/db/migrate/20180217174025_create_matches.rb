@@ -6,10 +6,10 @@ class CreateMatches < ActiveRecord::Migration[5.2]
       t.string :product_name, index: true
       t.decimal :price
       t.decimal :open_24h
-      t.decimal :volume_24h
       t.decimal :low_24h
       t.decimal :high_24h
       t.decimal :volume_30d
+      t.decimal :volume_24h
       t.decimal :best_bid
       t.decimal :best_ask
       t.string :side

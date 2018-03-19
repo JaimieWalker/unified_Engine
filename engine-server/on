@@ -1,0 +1,28 @@
+
+[1mFrom:[0m C:/Ruby25-x64/lib/ruby/gems/2.5.0/gems/httparty-0.16.0/lib/httparty/request.rb @ line 157 HTTParty::Request#perform:
+
+    [1;34m138[0m: [32mdef[0m [1;34mperform[0m(&block)
+    [1;34m139[0m:   validate
+    [1;34m140[0m:   setup_raw_request
+    [1;34m141[0m:   chunked_body = [1;36mnil[0m
+    [1;34m142[0m: 
+    [1;34m143[0m:   [1;36mself[0m.last_response = http.request(@raw_request) [32mdo[0m |http_response|
+    [1;34m144[0m:     [32mif[0m block
+    [1;34m145[0m:       chunks = []
+    [1;34m146[0m: 
+    [1;34m147[0m:       http_response.read_body [32mdo[0m |fragment|
+    [1;34m148[0m:         chunks << fragment [32munless[0m options[[33m:stream_body[0m]
+    [1;34m149[0m:         block.call(fragment)
+    [1;34m150[0m:       [32mend[0m
+    [1;34m151[0m: 
+    [1;34m152[0m:       chunked_body = chunks.join
+    [1;34m153[0m:     [32mend[0m
+    [1;34m154[0m:   [32mend[0m
+    [1;34m155[0m: 
+    [1;34m156[0m: 
+ => [1;34m157[0m:   handle_host_redirection [32mif[0m response_redirects?
+    [1;34m158[0m:   result = handle_unauthorized
+    [1;34m159[0m:   result ||= handle_response(chunked_body, &block)
+    [1;34m160[0m:   result
+    [1;34m161[0m: [32mend[0m
+

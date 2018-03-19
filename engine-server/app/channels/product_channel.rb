@@ -1,4 +1,5 @@
 class ProductChannel < ApplicationCable::Channel
+  # Gdax matches
   def subscribed
     stream_from "product_info"
   end

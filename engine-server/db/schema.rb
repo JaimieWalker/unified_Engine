@@ -33,7 +33,6 @@ ActiveRecord::Schema.define(version: 2018_03_13_225244) do
   end
 
   create_table "kraken_matches", force: :cascade do |t|
-    t.decimal "volume_24h"
     t.decimal "price"
     t.decimal "last_trade_volume"
     t.decimal "ask_price"
@@ -65,10 +64,10 @@ ActiveRecord::Schema.define(version: 2018_03_13_225244) do
     t.string "product_name"
     t.decimal "price"
     t.decimal "open_24h"
-    t.decimal "volume_24h"
     t.decimal "low_24h"
     t.decimal "high_24h"
     t.decimal "volume_30d"
+    t.decimal "volume_24h"
     t.decimal "best_bid"
     t.decimal "best_ask"
     t.string "side"

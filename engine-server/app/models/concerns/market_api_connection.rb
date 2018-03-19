@@ -15,7 +15,6 @@ module MarketApiConnection
 		gdax_products = get_products(uri)
 		products = get_gemini_products(uri2_gemini)
 		KrakenApi.save_products
-		binding.pry
 		KrakenApi.run_kraken_event_loop
 		# Just runs event loop for gemini
 		run_event_loop_for_gemini
@@ -71,7 +70,6 @@ module MarketApiConnection
 				ws = WebSocket::Client::Simple.connect ('wss://ws-feed.gdax.com') 
 
 					ws.on :open do |event|
-						binding.pry
 						ws.send(json)
 					end
 
