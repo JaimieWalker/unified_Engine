@@ -1,0 +1,2 @@
+class CoinbaseMatch < ApplicationRecord
+end

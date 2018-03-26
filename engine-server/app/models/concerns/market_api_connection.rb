@@ -2,13 +2,15 @@ require 'websocket-client-simple'
 require 'json'
 require 'net/https'
 require_relative "kraken_api"
-
+require_relative "coinbase_api"
 # GDAX API Connection
 module MarketApiConnection
+	binding.pry
+	coinbase_client = CoinBaseApi.new
 	kraken = KrakenApi.client
 	@@gemini_ws = []
 	attr_accessor :products
-	
+	binding.pry
 	def self.start_api_connection
 		uri = URI("https://api.gdax.com/products")
 		uri2_gemini = URI("https://api.gemini.com/v1/symbols")
@@ -92,7 +94,7 @@ module MarketApiConnection
 	end
 
 # This function just checks if the product is already in the database
-
+# This would be a gemini class
 	def self.get_gemini_products(uri)
 		begin
 			res = Net::HTTP.get(uri)		# an array of hashes of product is returned

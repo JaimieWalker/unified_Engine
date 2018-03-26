@@ -48,6 +48,7 @@ GEM
     builder (3.2.3)
     byebug (10.0.0)
     coderay (1.1.2)
+    coinbase (4.2.0)
     concurrent-ruby (1.0.5)
     crass (1.0.3)
     erubi (1.7.1)
@@ -145,6 +146,7 @@ PLATFORMS
 
 DEPENDENCIES
   byebug
+  coinbase
   kraken_ruby
   pg
   pry
