@@ -3,6 +3,7 @@ class Product < ApplicationRecord
 	has_many :gemini_matches
 	has_many :kraken_matches
 	validates_uniqueness_of   :product_name
+
 	def self.save_products(product_array)
 		current_products = []
 		product_array.each do |product|
@@ -17,6 +18,8 @@ class Product < ApplicationRecord
 				p.status = product["status"]
 				p.status_message = product["status_message"]
 				p.gdax = true
+				p.coinbase = true
+				p.coinbase_name = product["id"]
 			end
 		end
 		return current_products

@@ -9,4 +9,13 @@ class CoinBaseApi
         json["data"]["amount"]
     end
     
+    def get_matches
+        prod_arr = Product.where(coinbase: true)
+        prod_arr.each do |product|
+            spot_price(product.product_name)
+            binding.pry
+
+        end
+    end
+
 end
