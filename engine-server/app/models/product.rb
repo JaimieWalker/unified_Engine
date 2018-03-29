@@ -2,6 +2,7 @@ class Product < ApplicationRecord
 	has_many :matches
 	has_many :gemini_matches
 	has_many :kraken_matches
+	has_many :coinbase_matches
 	validates_uniqueness_of   :product_name
 
 	def self.save_products(product_array)

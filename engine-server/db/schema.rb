@@ -10,10 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_03_13_225244) do
+ActiveRecord::Schema.define(version: 2018_03_21_173606) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "coinbase_matches", force: :cascade do |t|
+    t.decimal "price"
+    t.bigint "product_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_coinbase_matches_on_product_id"
+  end
 
   create_table "gemini_matches", force: :cascade do |t|
     t.bigint "socket_sequence"
@@ -108,6 +116,7 @@ ActiveRecord::Schema.define(version: 2018_03_13_225244) do
     t.index ["product_name"], name: "index_products_on_product_name"
   end
 
+  add_foreign_key "coinbase_matches", "products"
   add_foreign_key "gemini_matches", "products"
   add_foreign_key "kraken_matches", "products"
   add_foreign_key "matches", "products"

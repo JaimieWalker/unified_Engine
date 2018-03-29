@@ -43,7 +43,7 @@ class KrakenApi
         end
     end
 
-    def self.run_kraken_event_loop
+    def self.run_event_loop_for_kraken
         kraken_products = Product.pluck(:kraken_name).compact
         kraken_thread = Thread.new {
             kraken_products.each do |product|

@@ -5,5 +5,6 @@ Rails.application.routes.draw do
   mount ActionCable.server => '/cable'
   mount ActionCable.server => '/g_cable'
   mount ActionCable.server => '/k_cable'
+  mount ActionCable.server => '/c_cable'
   get 'products', to: 'product#get_products'
 end
