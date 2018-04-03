@@ -1,10 +1,12 @@
 require 'websocket-client-simple'
 require 'json'
 require 'net/https'
+require "rufus-scheduler"
 require_relative "kraken_api"
 require_relative "coinbase_api"
 # GDAX API Connection
 module MarketApiConnection
+	@@scheduler = Rufus::Scheduler.new
 	@@coinbase_client = CoinBaseApi.new
 	kraken = KrakenApi.client
 	@@gemini_ws = []
@@ -16,14 +18,19 @@ module MarketApiConnection
 		gdax_products = get_products(uri)
 		products = get_gemini_products(uri2_gemini)
 		kraken_products = KrakenApi.save_products
-		binding.pry
-		CoinBaseApi.run_event_loop_for_coinbase(@@coinbase_client)
+		# binding.pry
+		@@scheduler.every '4m' do
+			KrakenApi.run_event_loop_for_kraken
+		end
+		@@scheduler.every '2m' do
+			CoinBaseApi.run_event_loop_for_coinbase(@@coinbase_client)
+		end
 
 		# creates a subscribe event for the market feed on gdax.com
 		# create_individual_product_tables
 		json = create_subscription
 		run_event_loop_for_gdax(json)
-		KrakenApi.run_event_loop_for_kraken
+		
 		# Just runs event loop for gemini
 		run_event_loop_for_gemini
 		

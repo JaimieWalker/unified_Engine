@@ -18,11 +18,12 @@ class CoinBaseApi
                 CoinbaseMatch.save_match(product.product_name,price)
             end
         end
+
     end
 
     def self.run_event_loop_for_coinbase(coinbase_client)
-        # Thread.new {
+        Thread.new {
             coinbase_client.get_matches
-        # }
+        }
     end
 end
