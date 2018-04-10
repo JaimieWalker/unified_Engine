@@ -27,7 +27,7 @@ module MarketApiConnection
 		CoinBaseApi.run_event_loop_for_coinbase(@@coinbase_client)
 		KrakenApi.run_event_loop_for_kraken
 		# binding.pry
-		@@scheduler.every '5m' do
+		@@scheduler.every '2m' do
 			KrakenApi.run_event_loop_for_kraken
 		end
 		@@scheduler.every '2m' do

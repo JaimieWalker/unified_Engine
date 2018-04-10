@@ -15,7 +15,17 @@ export class MarketDataService {
     this.ng2cable.subscribe(environment.base_url + '/k_cable', "KrakenMatchesChannel")
     this.ng2cable.subscribe(environment.base_url + '/c_cable', "CoinbaseChannel")
     
-    
+    // gdaxbroadcaster
+    this.broadcaster.on<string>('ProductChannel').subscribe(
+      message => {
+        let match = JSON.parse(message);
+        // This is a model, must turn product into an angular model
+        productservice.set_price(match.product_name, match.price)
+        console.log(productservice.get_products()["BTC-USD"].price)
+      },
+      error => {
+      }
+    );
     this.broadcaster.on<string>('KrakenMatchesChannel').subscribe(
       message => {
         let match = JSON.parse(message);
@@ -37,17 +47,7 @@ export class MarketDataService {
       },
       error => {}
     );
-    // gdaxbroadcaster
-    this.broadcaster.on<string>('ProductChannel').subscribe(
-      message => {
-        let match = JSON.parse(message);
-        // This is a model, must turn product into an angular model
-        productservice.set_price(match.product_name, match.price)
-        console.log(productservice.get_products()["BTC-USD"].price)
-      },
-      error => {
-      }
-    );
+
   }
   
 }

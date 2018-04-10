@@ -4,7 +4,9 @@ class Match < ApplicationRecord
 	after_create_commit :broadcast_product
 	def broadcast_product
 		# ActionCable.server.config.logger = Logger.new(nil)
-		ActionCable.server.broadcast("product_info",self.to_json)
+		gdax_match = self.attributes
+        gdax_match["product_name"] = self.product.product_name
+		ActionCable.server.broadcast("product_info",gdax_match.to_json)
 	end
 
 	def self.save_match(json)
