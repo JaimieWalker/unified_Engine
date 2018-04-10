@@ -4,7 +4,7 @@ class GeminiMatch < ApplicationRecord
     def broadcast_gemini
         ActionCable.server.config.logger = Logger.new(nil)
         g_match = self.attributes
-        g_match["product_name"] = self.product.product_name
+        g_match["product_name"] = self.product.base_currency + '-' + self.product.quote_currency
         g_match["api"] = "gemini"
 		ActionCable.server.broadcast("gemini_matches",g_match.to_json)
     end

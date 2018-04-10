@@ -1,4 +1,21 @@
-<div *ngFor="let value of values" ngFor = "let key of keys" class="example1" >
-  <h2 >{{value.base_currency + '-' + value.quote_currency}} {{value.price}}</h2>
+<div >
+  <!-- <h2 >{{value.product_name}} {{value.price}}</h2> -->
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Gdax Price</th>
+      <th>Gemini Price</th>
+      <th>Kraken Price</th>
+      <th>Coinbase Price</th>
+    </tr>
+    <tr *ngFor="let value of values" ngFor = "let key of keys" class="example1">
+      <td class="productName">{{value.product_name}}</td>
+      <td class="price">{{value.price}}</td>
+      <td class="price">{{value.g_price}}</td>
+      <td class="price">{{value.k_price}}</td>
+      <td class="price">{{value.c_price}}</td>
+    </tr>
+  </table>
 </div>
+
 

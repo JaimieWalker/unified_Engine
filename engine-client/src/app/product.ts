@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 
 export class Product {
     id: string;
+    product_name: string
     base_currency: string;
     quote_currency: string;
     base_min_size: number;
@@ -13,6 +14,9 @@ export class Product {
     status_message: string;
     // This number will change based on the quote currency
     price: number;
+    k_price: number;
+    g_price: number;
+    c_price: number;
     constructor(id:string){
         this.id = id;
     }

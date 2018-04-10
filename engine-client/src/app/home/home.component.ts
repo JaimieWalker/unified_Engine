@@ -23,6 +23,7 @@ export class HomeComponent implements OnInit {
     let data = this.route.snapshot.data.products
     for (let prod of data) {
       let product = new Product(prod.display_name);
+      product.product_name = prod.product_name
       product.base_currency = prod.base_currency;
       product.base_max_size = prod.base_max_size;
       product.base_min_size = prod.base_min_size;
@@ -33,7 +34,7 @@ export class HomeComponent implements OnInit {
       product.status = prod.status;
       product.status_message = prod.status_message
       // Price needs to come from some sort of cache from the database
-      product.price = 0;
+      product.price;
       this.market_data.productservice.products[prod.base_currency + "-" + prod.quote_currency] = product
     }
     this.products = this.market_data.productservice.products

@@ -47,8 +47,17 @@ class KrakenApi
         kraken_products = Product.pluck(:kraken_name).compact
         kraken_thread = Thread.new {
             kraken_products.each do |product|
-                sleep 3
-                ticker_info = client.ticker(product)
+                begin
+                    # You get nothing if .d is there, fix that
+                    ticker_info = client.ticker(product)
+                    if ticker_info.empty?
+                        raise "ticker_empty"
+                    end
+                rescue
+                    binding.pry
+                    sleep 10
+                    retry                    
+                end
                 KrakenMatch.save_match(ticker_info)
             end
         }

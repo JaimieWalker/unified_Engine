@@ -12,14 +12,32 @@ export class MarketDataService {
 
     this.ng2cable.subscribe(environment.base_url + '/cable', 'ProductChannel');
     this.ng2cable.subscribe(environment.base_url + '/g_cable', 'GeminiMatchesChannel')
-    this.broadcaster.on<string>('GeminiMatchesChannel').subscribe(
+    this.ng2cable.subscribe(environment.base_url + '/k_cable', "KrakenMatchesChannel")
+    this.ng2cable.subscribe(environment.base_url + '/c_cable', "CoinbaseChannel")
+    
+    
+    this.broadcaster.on<string>('KrakenMatchesChannel').subscribe(
       message => {
         let match = JSON.parse(message);
-        debugger
+        productservice.set_kraken_price(match.product_name, match.price)
       },
       error => {}
     );
-    
+    this.broadcaster.on<string>('CoinbaseChannel').subscribe(
+      message => {
+        let match = JSON.parse(message);
+        productservice.set_coinbase_price(match.product_name, match.price)
+      },
+      error => {}
+    );
+    this.broadcaster.on<string>('GeminiMatchesChannel').subscribe(
+      message => {
+        let match = JSON.parse(message);
+        productservice.set_gemini_price(match.product_name, match.price)
+      },
+      error => {}
+    );
+    // gdaxbroadcaster
     this.broadcaster.on<string>('ProductChannel').subscribe(
       message => {
         let match = JSON.parse(message);

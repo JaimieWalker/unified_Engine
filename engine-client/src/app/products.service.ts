@@ -18,9 +18,17 @@ export class ProductsService {
     this.products = {}
   }
   
+  set_coinbase_price(product: string,price: number){
+    this.products[product].c_price = price;
+  }
+  set_gemini_price(product: string,price: number){
+    this.products[product].g_price = price;
+  }
+  set_kraken_price(product: string,price: number){
+    this.products[product].k_price = price;
+  }
   set_price(product: string,price: number){
     this.products[product].price = price;
-
   }
 
   get_products():any{

@@ -10,7 +10,7 @@ class Match < ApplicationRecord
 	def self.save_match(json)
 		product = Product.find_by(product_name: json["product_id"])
 		  # Assigning this for debug purposes. Lowers efficiency by a very insignificant amount for now 11/9/2017
-		  a_match = Match.create!(product_id: product.id) do |m|
+		  a_match = Match.create(product_id: product.id) do |m|
 			m.response_type = json["type"]
 			m.product_name = json["product_id"]
 			m.price = json["price"]
