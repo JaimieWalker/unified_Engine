@@ -26,6 +26,7 @@ export class MarketDataService {
       error => {
       }
     );
+
     this.broadcaster.on<string>('KrakenMatchesChannel').subscribe(
       message => {
         let match = JSON.parse(message);
