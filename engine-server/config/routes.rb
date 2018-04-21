@@ -7,5 +7,5 @@ Rails.application.routes.draw do
   mount ActionCable.server => '/k_cable'
   mount ActionCable.server => '/c_cable'
   get 'products', to: 'product#get_products'
-  get 'recent_matches', to: 'product#recent'
+  get 'recent', to: 'product#recent'
 end

@@ -11,6 +11,7 @@ const httpOptions = {
 
 @Injectable()
 export class ProductsService {
+  recent_products: any;
   products :any;
   endpoint = environment.base_url + "/products"
 
@@ -18,6 +19,13 @@ export class ProductsService {
     this.products = {}
   }
   
+  most_recent(){
+    let product_url
+    product_url = environment.base_url + "/recent"
+    let res = this.http.get<any>(product_url,{observe: 'response'});
+    res.subscribe(data => this.recent_products);
+  }
+
   set_coinbase_price(product: string,price: number){
     this.products[product].c_price = price;
   }

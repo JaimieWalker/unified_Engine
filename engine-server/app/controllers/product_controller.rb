@@ -6,22 +6,24 @@ class ProductController < ApplicationController
 
     def recent
         products = {}
-        Product.all.each do |prod|
+		Product.all.each do |prod|
             gdax_match = prod.matches.last
             kraken_match = prod.kraken_matches.last
             coinbase_match = prod.coinbase_matches.last
             gemini_match = prod.gemini_matches.last
-# &: is the safe navigation operator. It returns nil if a NoMethodError nil would occur
+			
             product_name = prod.base_currency + '-' + prod.quote_currency
-            products[product_name] = {:gdax_price => gdax_match&.price}
-            products[product_name] = {:gdax_time => gdax_match&.created_at}
-            products[product_name] = {:kraken_price => kraken_match&.price}
-            products[product_name] = {:kraken_time => kraken_match&.created_at}
-            products[product_name] = {:coinbase_price => coinbase_match&.price}
-            products[product_name] = {:coinbase_time => coinbase_match&.created_at}
-            products[product_name] = {:gemini_price => gemini_match&.price}
-            products[product_name] = {:gemini_time => gemini_match&.created_at}
-        end
+            # &: is the safe navigation operator. It returns nil if a NoMethodError nil would occur
+			products[product_name] = {:gemini_price => gemini_match&.price,
+			:gemini_time => gemini_match&.created_at,
+			:gdax_price => gdax_match&.price,
+			:gdax_time => gdax_match&.created_at, 
+			:kraken_price => kraken_match&.price, 
+			:kraken_time => kraken_match&.created_at,
+			:coinbase_price => coinbase_match&.price,
+			:coinbase_time => coinbase_match&.created_at}
+		end
+        binding.pry
         render json: products
     end
 end
