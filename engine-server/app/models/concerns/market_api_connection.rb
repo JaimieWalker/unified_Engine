@@ -14,7 +14,6 @@ module MarketApiConnection
 	
 	
 	def self.start_api_connection
-		binding.pry
 		uri = URI("https://api.gdax.com/products")
 		uri2_gemini = URI("https://api.gemini.com/v1/symbols")
 		gdax_products = get_products(uri)

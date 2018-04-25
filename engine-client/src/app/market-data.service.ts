@@ -19,8 +19,10 @@ export class MarketDataService {
     this.broadcaster.on<string>('ProductChannel').subscribe(
       message => {
         let match = JSON.parse(message);
-        // This is a model, must turn product into an angular model
-        productservice.set_price(match.product_name, match.price)
+        let time = new Date (match.created_at)
+        
+        productservice.set_gdax_price(match.product_name, match.price)
+        productservice.set_gdax_time(match.product_name, time.toLocaleTimeString())
         console.log(productservice.get_products()["BTC-USD"].price)
       },
       error => {
@@ -30,21 +32,27 @@ export class MarketDataService {
     this.broadcaster.on<string>('KrakenMatchesChannel').subscribe(
       message => {
         let match = JSON.parse(message);
+        let time = new Date(match.created_at)
         productservice.set_kraken_price(match.product_name, match.price)
+        productservice.set_kraken_time(match.product_name, time.toLocaleTimeString())
       },
       error => {}
     );
     this.broadcaster.on<string>('CoinbaseChannel').subscribe(
       message => {
         let match = JSON.parse(message);
+        let time = new Date(match.created_at)
         productservice.set_coinbase_price(match.product_name, match.price)
+        productservice.set_coinbase_time(match.product_name, time.toLocaleTimeString())
       },
       error => {}
     );
     this.broadcaster.on<string>('GeminiMatchesChannel').subscribe(
       message => {
         let match = JSON.parse(message);
+        let time = new Date(match.created_at)
         productservice.set_gemini_price(match.product_name, match.price)
+        productservice.set_gemini_time(match.product_name, time.toLocaleTimeString())
       },
       error => {}
     );

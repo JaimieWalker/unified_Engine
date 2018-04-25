@@ -13,10 +13,14 @@ export class Product {
     margin_enabled: boolean;
     status_message: string;
     // This number will change based on the quote currency
-    price: number;
-    k_price: number;
-    g_price: number;
-    c_price: number;
+    price: any;
+    k_price: any;
+    g_price: any;
+    c_price: any;
+    time: any;
+    c_time: any;
+    k_time: any;
+    g_time: any;
     constructor(id:string){
         this.id = id;
     }

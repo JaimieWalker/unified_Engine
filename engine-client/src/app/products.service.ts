@@ -19,29 +19,42 @@ export class ProductsService {
     this.products = {}
   }
   
-  most_recent(){
-    let product_url
-    product_url = environment.base_url + "/recent"
-    let res = this.http.get<any>(product_url,{observe: 'response'});
-    res.subscribe(data => this.recent_products);
+  initialize_products():Observable<any>{
+    let product_url = environment.base_url + "/recent"
+    return this.http.get<any>(product_url, { observe: 'response' });
   }
 
-  set_coinbase_price(product: string,price: number){
+  set_coinbase_price(product: string, price: number) {
     this.products[product].c_price = price;
   }
+
+  set_coinbase_time(product: string, time: any){
+    this.products[product].c_time = time
+  }
+   
   set_gemini_price(product: string,price: number){
     this.products[product].g_price = price;
+  }
+  set_gemini_time(product: string, time: any) {
+    this.products[product].g_time = time
   }
   set_kraken_price(product: string,price: number){
     this.products[product].k_price = price;
   }
-  set_price(product: string,price: number){
+  set_kraken_time(product: string, time: any) {
+    this.products[product].k_time = time
+  }
+  set_gdax_price(product: string,price: number){
     this.products[product].price = price;
   }
+  set_gdax_time(product: string, time: any){
+    this.products[product].time = time
+   }
 
   get_products():any{
     return this.products
   }
+
 
   // When the user connects, create a dictionary/hash of all the current products in the database
   create_products():Observable<any>{

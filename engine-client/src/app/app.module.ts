@@ -9,6 +9,7 @@ import { Ng2CableModule } from 'ng2-cable';
 import { ProductsService } from './products.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ProdResolver } from './product.resolver';
+import { RecentResolver } from './recent.resolver';
 
 
 @NgModule({
@@ -21,7 +22,7 @@ import { ProdResolver } from './product.resolver';
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [MarketDataService, ProductsService, ProdResolver],
+  providers: [MarketDataService, ProductsService, ProdResolver,RecentResolver],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

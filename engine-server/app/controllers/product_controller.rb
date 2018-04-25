@@ -22,8 +22,7 @@ class ProductController < ApplicationController
 			:kraken_time => kraken_match&.created_at,
 			:coinbase_price => coinbase_match&.price,
 			:coinbase_time => coinbase_match&.created_at}
-		end
-        binding.pry
+        end
         render json: products
     end
 end
