@@ -4,26 +4,18 @@
     <tr>
       <th>Name</th>
       <th>Gdax Price</th>
-      <th>Gdax Last Updated</th>
       <th>Gemini Price</th>
-      <th>Gemini Last Updated</th>
       <th>Kraken Price</th>
-      <th>Kraken Last Updated</th>
       <th>Coinbase Price</th>
-      <th>Coinbase Last Updated</th>
       <th>Spread</th>
     </tr>
     <tr  *ngFor="let value of values" ngFor = "let key of keys" class="example1">
       <td class="productName">{{value.product_name}}</td>
-      <td [style.background-color]="gdaxPrice(value)" class="price" >{{value.price}}</td>
-      <td [style.background-color]="gdaxTime(value)" class="time">{{value.time}}</td>
-      <td [style.background-color]="geminiPrice(value)" class="price">{{value.g_price}}</td>
-      <td [style.background-color]="geminiTime(value)" class="time">{{value.g_time}}</td>
-      <td [style.background-color]="krakenPrice(value)" class="price">{{value.k_price}}</td>
-      <td [style.background-color]="krakenTime(value)" class="time">{{value.k_time}}</td>
-      <td [style.background-color]="coinbasePrice(value)" class="price">{{value.c_price}}</td>
-      <td [style.background-color]="coinbaseTime(value)" class="time">{{value.c_time}}</td>
-      <td class="spread"></td>
+      <td [style.background-color]="gdaxPrice(value)" class="price" >{{value.price}}<hr>{{value.time}}</td>
+      <td [style.background-color]="geminiPrice(value)" class="price">{{value.g_price}}<hr>{{value.g_time}}</td>
+      <td [style.background-color]="krakenPrice(value)" class="price">{{value.k_price}}<hr>{{value.k_time}}</td>
+      <td [style.background-color]="coinbasePrice(value)" class="price">{{value.c_price}}<hr>{{value.c_time}}</td>
+      <td class="spread">{{spread(value)}}</td>
     </tr>
   </table>
 </div>

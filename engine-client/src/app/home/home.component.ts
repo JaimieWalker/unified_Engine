@@ -81,7 +81,32 @@ export class HomeComponent implements OnInit {
     console.log(this.products)
   }
 
+
+  spread(value){
+    return this.max(value) - this.min(value)
+  }
+
+  max(value){
+    let arr = [value.price, value.k_price, value.c_price, value.g_price]
+    let max = Math.max.apply(null, arr)
+    return max
+  }
+
+  min(value){
+    let arr = [value.price, value.k_price, value.c_price, value.g_price]
+    let min = Math.min.apply(null, arr.filter(Boolean))
+    return min
+  }
   
+  // Style changes
+  changeMaxStyle() {
+    
+  }
+
+  changeMinStyle(){
+
+  }
+
   gdaxPrice(element){
     return element.price ? "lightgreen" : "black" 
   }
