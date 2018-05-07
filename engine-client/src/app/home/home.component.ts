@@ -22,7 +22,6 @@ export class HomeComponent implements OnInit {
   constructor(private market_data: MarketDataService, private route: ActivatedRoute) {
     this.recent = this.route.snapshot.data.recent.body
     this.market_data.productservice.recent_products = this.recent
-    
     let data = this.route.snapshot.data.products
     for (let prod of data) {
       let product = new Product(prod.display_name);
@@ -83,56 +82,91 @@ export class HomeComponent implements OnInit {
 
 
   spread(value){
-    return this.max(value) - this.min(value)
+    let arr = [value.price, value.k_price, value.c_price, value.g_price]
+     let spread: any = this.max(arr) - this.min(arr)
+     if (spread == "-Infinity") {
+       return 0
+     }
+    return spread
   }
 
-  max(value){
-    let arr = [value.price, value.k_price, value.c_price, value.g_price]
-    let max = Math.max.apply(null, arr)
+  max(arr: number[]){
+    let max = Math.max.apply(null, arr.filter(Boolean))
+    if (max == "-Infinity") {
+      return max = 0
+    }
     return max
   }
 
-  min(value){
-    let arr = [value.price, value.k_price, value.c_price, value.g_price]
+  min(arr: number[]){
+
     let min = Math.min.apply(null, arr.filter(Boolean))
+    if (min == "Infinity") {
+      return min = 0
+    }
     return min
   }
   
   // Style changes
-  changeMaxStyle() {
-    
-  }
 
-  changeMinStyle(){
-
-  }
 
   gdaxPrice(element){
-    return element.price ? "lightgreen" : "black" 
+    let price = element.price + 0
+    let arr = [element.price, element.k_price, element.c_price, element.g_price]
+    if((price == this.min(arr) || price == this.max(arr)) && price != 0){
+      return "blue"
+    }else if(price){
+      return;
+    }
+    return "black" 
   }
 
-  gdaxTime(element){
-    return element.time ? "lightgray" : "black" 
-  }
+  // gdaxTime(element){
+  //   return element.time ? "lightgray" : "black" 
+  // }
 
   geminiPrice(element){
-    return element.g_price ? "lightgreen" : "black" 
+    let price = element.g_price + 0
+
+    let arr = [element.price, element.k_price, element.c_price, element.g_price]
+    if((price == this.min(arr) || price == this.max(arr)) && price != 0){
+      
+      return "blue"
+    } else if (price) {
+      return;
+    }
+    
+    return "black" 
   }
-  geminiTime(element){
-    return element.g_time ? "lightgray" : "black" 
-  }
+  // geminiTime(element){
+  //   return element.g_time ? "lightgray" : "black" 
+  // }
   krakenPrice(element){
-    return element.k_price ? "lightgreen" : "black" 
+    let price = element.k_price + 0
+    let arr = [element.price, element.k_price, element.c_price, element.g_price]
+    if ((price == this.min(arr) || price == this.max(arr)) && price != 0) {
+      return "blue"
+    } else if (price) {
+      return;
+    }
+    return "black"
   }
-  krakenTime(element){
-    return element.k_time ? "lightgray" : "black" 
-  }
+  // krakenTime(element){
+  //   return element.k_time ? "lightgray" : "black" 
+  // }
   coinbasePrice(element){
-    return element.c_price ? "lightgreen" : "black" 
+    let price = element.c_price + 0
+    let arr = [element.price, element.k_price, element.c_price, element.g_price]
+    if ((price == this.min(arr) || price == this.max(arr)) && price != 0) {
+      return "blue"
+    } else if (price) {
+      return;
+    }
+    return "black" 
   }
-  coinbaseTime(element){
-    return element.c_time ? "lightgray" : "black" 
-  }
+  // coinbaseTime(element){
+  //   return element.c_time ? "lightgray" : "black" 
+  // }
   
 
 
