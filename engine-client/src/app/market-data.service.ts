@@ -24,8 +24,10 @@ export class MarketDataService {
         productservice.set_gdax_price(match.product_name, match.price)
         productservice.set_gdax_time(match.product_name, time.toLocaleTimeString())
         console.log(productservice.get_products()["BTC-USD"].price)
+        productservice.gdaxStatus = "green"
       },
       error => {
+        productservice.gdaxStatus = "black"
       }
     );
 
@@ -35,8 +37,11 @@ export class MarketDataService {
         let time = new Date(match.created_at)
         productservice.set_kraken_price(match.product_name, match.price)
         productservice.set_kraken_time(match.product_name, time.toLocaleTimeString())
+        productservice.krakenStatus = "green"
       },
-      error => {}
+      error => {
+        productservice.krakenStatus = "black"
+      }
     );
     this.broadcaster.on<string>('CoinbaseChannel').subscribe(
       message => {
@@ -44,8 +49,11 @@ export class MarketDataService {
         let time = new Date(match.created_at)
         productservice.set_coinbase_price(match.product_name, match.price)
         productservice.set_coinbase_time(match.product_name, time.toLocaleTimeString())
+        productservice.coinbaseStatus = "green"
       },
-      error => {}
+      error => {
+        productservice.coinbaseStatus = "black"
+      }
     );
     this.broadcaster.on<string>('GeminiMatchesChannel').subscribe(
       message => {
@@ -53,8 +61,11 @@ export class MarketDataService {
         let time = new Date(match.created_at)
         productservice.set_gemini_price(match.product_name, match.price)
         productservice.set_gemini_time(match.product_name, time.toLocaleTimeString())
+        productservice.geminiStatus = "green"
       },
-      error => {}
+      error => {
+        productservice.geminiStatus = "black"
+      }
     );
 
   }

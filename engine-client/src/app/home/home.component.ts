@@ -16,8 +16,8 @@ export class HomeComponent implements OnInit {
   products: any;
   keys: any;
   values: any;
-  recent : any
-  
+  recent : any;
+  prodService: any = this.market_data.productservice
 
   constructor(private market_data: MarketDataService, private route: ActivatedRoute) {
     this.recent = this.route.snapshot.data.recent.body
@@ -57,7 +57,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     
     // if it is just time or price, then this is for gdax
-    let prodService = this.market_data.productservice
+    // let this.prodService = this.market_data.productservice
     for(let prod in this.recent){
       let val = this.recent[prod]
       let c_time: any = new Date(val["coinbase_time"])
@@ -68,14 +68,14 @@ export class HomeComponent implements OnInit {
       time.getFullYear() === 1969 ? time = null : time = time.toLocaleTimeString();
       g_time.getFullYear() === 1969 ? g_time = null : g_time = g_time.toLocaleTimeString();
       k_time.getFullYear() === 1969 ? k_time = null : k_time = k_time.toLocaleTimeString();
-      prodService.set_coinbase_price(prod,val["coinbase_price"] || null)
-      prodService.set_coinbase_time(prod,c_time)
-      prodService.set_gdax_price(prod,val["gdax_price"] || null)
-      prodService.set_gdax_time(prod, time)
-      prodService.set_gemini_price(prod,val["gemini_price"] || null)
-      prodService.set_gemini_time(prod, g_time)
-      prodService.set_kraken_price(prod,val["kraken_price"] || null)
-      prodService.set_kraken_time(prod,k_time)
+      this.prodService.set_coinbase_price(prod,val["coinbase_price"] || null)
+      this.prodService.set_coinbase_time(prod,c_time)
+      this.prodService.set_gdax_price(prod,val["gdax_price"] || null)
+      this.prodService.set_gdax_time(prod, time)
+      this.prodService.set_gemini_price(prod,val["gemini_price"] || null)
+      this.prodService.set_gemini_time(prod, g_time)
+      this.prodService.set_kraken_price(prod,val["kraken_price"] || null)
+      this.prodService.set_kraken_time(prod,k_time)
     }
     console.log(this.products)
   }

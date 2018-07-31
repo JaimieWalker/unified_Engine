@@ -120,7 +120,7 @@ module MarketApiConnection
 			temp = String.new(product)
 			temp.insert(3,'-')
 			crypto_product = Product.where("product_name ~* ?", temp)[0]
-			crypto_product.update(gemini_display_name: product, gemini: true)
+			crypto_product.update(gemini_display_name: product, gemini: true) if !crypto_product.nil?
 			# Check the database for a similar text match
 		end
 	end

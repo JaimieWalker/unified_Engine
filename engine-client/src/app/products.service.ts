@@ -14,7 +14,11 @@ export class ProductsService {
   recent_products: any;
   products :any;
   endpoint = environment.base_url + "/products"
-
+  krakenStatus = "green"
+  geminiStatus = "green"
+  gdaxStatus = "green"
+  coinbaseStatus = "green"
+  
   constructor(private http: HttpClient) {
     this.products = {}
   }
